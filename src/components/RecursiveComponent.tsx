@@ -13,24 +13,28 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
 
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
-    <div className="mb-2 ml-2 cursor-pointer">
-      <div className="flex items-center">
-        {fileTree.isFolder ? (
-          <div className="flex items-center" onClick={toggleIsOpen}>
-            <RightArrowIcon className={`transform ${isOpen ? "rotate-90" : ""}`} />
-            <FolderIcon />
-          </div>
-        ) : (
+    <div className="flex justify-center gap-1 flex-col ml-2">
+      {fileTree.isFolder ? (
+        <div className="flex items-center cursor-pointer" onClick={toggleIsOpen}>
+          <RightArrowIcon
+            className={`transform ${isOpen ? "rotate-90" : ""}`}
+          />
+          <FolderIcon />
+          <span className="ml-1 select-none">{fileTree.name}</span>
+        </div>
+      ) : (
+        <div className="flex items-center cursor-pointer ml-5">
           <FileIcon />
-        )}
+          <span className="ml-1 select-none">{fileTree.name}</span>
+        </div>
+      )}
 
-        <span className="ml-1 select-none" onClick={toggleIsOpen}>{fileTree.name}</span>
-      </div>
-
-      {fileTree.children &&
+      {isOpen &&
+        fileTree.isFolder &&
+        fileTree.children &&
         fileTree.children.map((file, idx) => (
           <RecursiveComponent fileTree={file} key={idx} />
         ))}
