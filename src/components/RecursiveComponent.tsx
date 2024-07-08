@@ -1,6 +1,7 @@
-import FileIcon from "./SVG/FileIcon";
-// import FolderIcon from "./SVG/FolderIcon";
+import { useState } from "react";
 import { IFile } from "../interfaces";
+import FileIcon from "./SVG/FileIcon";
+import FolderIcon from "./SVG/FolderIcon";
 import RightArrowIcon from "./SVG/RightArrowIcon";
 
 interface IProps {
@@ -8,15 +9,25 @@ interface IProps {
 }
 
 const RecursiveComponent = ({ fileTree }: IProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleIsOpen = () => {
+    setIsOpen(!isOpen);
+  }
+
   return (
-    <div className="ml-2">
+    <div className="mb-2 ml-2 cursor-pointer">
       <div className="flex items-center">
-        <RightArrowIcon />
-        <span>
-          {/* <FolderIcon /> */}
+        {fileTree.isFolder ? (
+          <div className="flex items-center" onClick={toggleIsOpen}>
+            <RightArrowIcon className={`transform ${isOpen ? "rotate-90" : ""}`} />
+            <FolderIcon />
+          </div>
+        ) : (
           <FileIcon />
-        </span>
-        <span className="ml-1">{fileTree.name}</span>
+        )}
+
+        <span className="ml-1 select-none" onClick={toggleIsOpen}>{fileTree.name}</span>
       </div>
 
       {fileTree.children &&
