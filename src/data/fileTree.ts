@@ -61,11 +61,7 @@ export const fileTree: IFile = {
               id: uuid(),
               name: "Button.tsx",
               isFolder: false,
-            },
-            {
-              id: uuid(),
-              name: "Button.tsx",
-              isFolder: false,
+              content: `import React from "react";`
             },
           ],
         },

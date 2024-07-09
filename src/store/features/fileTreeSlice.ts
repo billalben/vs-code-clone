@@ -3,7 +3,7 @@ import { IFile } from "../../interfaces";
 
 type TClickedFile = {
   fileName: string;
-  fileContent: string;
+  fileContent: string | undefined;
 };
 
 type TInitialState = {
@@ -25,9 +25,13 @@ const fileTreeSlice = createSlice({
   reducers: {
     setOpenedFiles: (state, action: PayloadAction<IFile[]>) => {
       state.openedFiles = action.payload;
-    }
+    },
+    setClickedFile: (state, action: PayloadAction<TClickedFile>) => {
+      state.clickedFile.fileName = action.payload.fileName;
+      state.clickedFile.fileContent = action.payload.fileContent;
+    },
   },
 });
 
-export const { setOpenedFiles } = fileTreeSlice.actions;
+export const { setOpenedFiles, setClickedFile } = fileTreeSlice.actions;
 export default fileTreeSlice.reducer;
