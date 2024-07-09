@@ -1,6 +1,6 @@
 import { IFile } from "../interfaces";
 import { setClickedFile } from "../store/features/fileTreeSlice";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import RenderFileIcon from "./RenderFileIcon";
 import CloseIcon from "./SVG/CloseIcon";
 
@@ -10,17 +10,24 @@ interface IProps {
 
 const OpenedFilesBarTab = ({ file }: IProps) => {
   const dispatch = useAppDispatch();
+  const { activeTabId } = useAppSelector((state) => state.fileTree.clickedFile);
 
   // Handler
   const onFileTabClicked = () => {
     dispatch(
-      setClickedFile({ fileName: file.name, fileContent: file.content })
+      setClickedFile({
+        fileName: file.name,
+        fileContent: file.content,
+        activeTabId: file.id,
+      })
     );
   };
 
   return (
     <div
-      className="flex flex-row items-center gap-1 bg-slate-300 py-2 px-4 cursor-pointer [&:not(:last-child)]:border-r-2 border-slate-400 transition-colors duration-200"
+      className={`flex flex-row items-center gap-1 bg-slate-300 py-2 px-4 cursor-pointer border-t-2 ${
+        file.id === activeTabId ? "border-[#cf6ccf]" : "border-transparent"
+      }`}
       onClick={onFileTabClicked}
     >
       <RenderFileIcon fileName={file.name} />

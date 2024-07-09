@@ -3,7 +3,10 @@ import { IFile } from "../interfaces";
 import RightArrowIcon from "./SVG/RightArrowIcon";
 import RenderFileIcon from "./RenderFileIcon";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setOpenedFiles } from "../store/features/fileTreeSlice";
+import {
+  setClickedFile,
+  setOpenedFiles,
+} from "../store/features/fileTreeSlice";
 import { doesFileObjectExist } from "../utils/functions";
 
 interface IProps {
@@ -22,9 +25,25 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
 
   const onFileClicked = () => {
     const exist = doesFileObjectExist(openedFiles, fileTree.id);
-    if (exist) return;
+    if (exist) {
+      dispatch(
+        setClickedFile({
+          fileName: fileTree.name,
+          fileContent: fileTree.content,
+          activeTabId: fileTree.id,
+        })
+      );
+      return;
+    }
 
     dispatch(setOpenedFiles([...openedFiles, fileTree]));
+    dispatch(
+      setClickedFile({
+        fileName: fileTree.name,
+        fileContent: fileTree.content,
+        activeTabId: fileTree.id,
+      })
+    );
   };
 
   return (
