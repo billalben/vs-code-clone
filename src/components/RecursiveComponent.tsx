@@ -17,7 +17,7 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
   const dispatch = useAppDispatch();
   const { openedFiles } = useAppSelector((state) => state.fileTree);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -47,7 +47,7 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
   };
 
   return (
-    <div className="flex gap-1 flex-col ml-2 pr-5">
+    <div className="flex gap-1 flex-col ml-2 pr-5 border-l-2">
       {fileTree.isFolder ? (
         <div
           className="flex items-center cursor-pointer"
