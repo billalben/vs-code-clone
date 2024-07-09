@@ -47,7 +47,7 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
   };
 
   return (
-    <div className="flex justify-center gap-1 flex-col ml-2 pr-5">
+    <div className="flex gap-1 flex-col ml-2 pr-5">
       {fileTree.isFolder ? (
         <div
           className="flex items-center cursor-pointer"

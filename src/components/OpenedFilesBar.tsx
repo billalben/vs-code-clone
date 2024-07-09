@@ -1,4 +1,5 @@
 import { useAppSelector } from "../store/hooks";
+import FileSyntaxHighlighter from "./FileSyntaxHighlighter";
 import OpenedFilesBarTab from "./OpenedFilesBarTab";
 
 const OpenedFilesBar = () => {
@@ -15,11 +16,10 @@ const OpenedFilesBar = () => {
           ))}
         </ul>
       </div>
-      {clickedFile.fileName && (
-        <div className="bg-slate-300 p-2 mt-2 overflow-x-auto">
-          <p className="mt-2">{clickedFile.fileContent}</p>
-        </div>
-      )}
+      <FileSyntaxHighlighter
+        content={clickedFile.fileContent || ""}
+        language="html"
+      />
     </div>
   );
 };
