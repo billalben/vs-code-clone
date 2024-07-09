@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import fileTreeReducer from "./features/fileTreeSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    fileTree: fileTreeReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
