@@ -1,5 +1,8 @@
 import { IFile } from "../interfaces";
-import { setClickedFile } from "../store/features/fileTreeSlice";
+import {
+  setClickedFile,
+  setOpenedFiles,
+} from "../store/features/fileTreeSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import RenderFileIcon from "./RenderFileIcon";
 import CloseIcon from "./SVG/CloseIcon";
@@ -10,7 +13,10 @@ interface IProps {
 
 const OpenedFilesBarTab = ({ file }: IProps) => {
   const dispatch = useAppDispatch();
-  const { activeTabId } = useAppSelector((state) => state.fileTree.clickedFile);
+  const {
+    openedFiles,
+    clickedFile: { activeTabId },
+  } = useAppSelector((state) => state.fileTree);
 
   // Handler
   const onFileTabClicked = () => {
@@ -19,6 +25,31 @@ const OpenedFilesBarTab = ({ file }: IProps) => {
         fileName: file.name,
         fileContent: file.content,
         activeTabId: file.id,
+      })
+    );
+  };
+
+  const onRemove = (id: string) => {
+    const filteredFiles = openedFiles.filter((file) => file.id !== id);
+    const lastTab = filteredFiles[filteredFiles.length - 1];
+    dispatch(setOpenedFiles(filteredFiles));
+
+    if (filteredFiles.length === 0) {
+      dispatch(
+        setClickedFile({
+          activeTabId: null,
+          fileName: "",
+          fileContent: "",
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      setClickedFile({
+        activeTabId: lastTab.id,
+        fileName: lastTab.name,
+        fileContent: lastTab.content,
       })
     );
   };
@@ -32,7 +63,13 @@ const OpenedFilesBarTab = ({ file }: IProps) => {
     >
       <RenderFileIcon fileName={file.name} />
       <li>{file.name}</li>
-      <div className="hover:bg-slate-400 p-1 rounded-full transition-colors duration-200">
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(file.id);
+        }}
+        className="hover:bg-slate-400 p-1 rounded-full transition-colors duration-200"
+      >
         <CloseIcon />
       </div>
     </div>
