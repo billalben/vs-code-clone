@@ -13,6 +13,7 @@ interface IProps {
 
 const OpenedFilesBarTab = ({ file }: IProps) => {
   const dispatch = useAppDispatch();
+
   const {
     openedFiles,
     clickedFile: { activeTabId },
@@ -59,19 +60,20 @@ const OpenedFilesBarTab = ({ file }: IProps) => {
       className={`flex flex-row items-center gap-1 bg-slate-300 py-2 px-4 cursor-pointer border-t-2 ${
         file.id === activeTabId ? "border-[#cf6ccf]" : "border-transparent"
       }`}
+      data-tab-id={file.id}
       onClick={onFileTabClicked}
     >
       <RenderFileIcon fileName={file.name} />
       <li>{file.name}</li>
-      <div
+      <span
+        className="hover:bg-slate-400 p-1 rounded-full transition-colors duration-200"
         onClick={(e) => {
           e.stopPropagation();
           onRemove(file.id);
         }}
-        className="hover:bg-slate-400 p-1 rounded-full transition-colors duration-200"
       >
         <CloseIcon />
-      </div>
+      </span>
     </div>
   );
 };
