@@ -1,9 +1,8 @@
 import { useAppSelector } from "../store/hooks";
-import FileSyntaxHighlighter from "./FileSyntaxHighlighter";
 import OpenedFilesBarTab from "./OpenedFilesBarTab";
 
 const OpenedFilesBar = () => {
-  const { openedFiles, clickedFile } = useAppSelector(
+  const { openedFiles } = useAppSelector(
     (state) => state.fileTree
   );
 
@@ -16,10 +15,6 @@ const OpenedFilesBar = () => {
           ))}
         </ul>
       </div>
-      <FileSyntaxHighlighter
-        content={clickedFile.fileContent || ""}
-        language="html"
-      />
     </div>
   );
 };
